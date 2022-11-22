@@ -2,8 +2,14 @@ NAME = pipex
 
 SRCS = pipex.c
 
-all : 
-	cc pipex.c -o $(NAME)
+mlibft :
+	make -C libft
 
-clean :
+all : mlibft
+	cc pipex.c -o $(NAME) -L libft -l ft
+
+clibft :
+	make fclean -C libft
+
+clean : clibft
 	rm -rf pipex
