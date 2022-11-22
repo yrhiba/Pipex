@@ -6,7 +6,7 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 02:13:28 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/11/20 03:33:17 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/11/22 18:16:03 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,5 @@
 
 int main(int ac, char const *av[], char *envp[])
 {
-	while (*envp)
-	{
-		printf("%s\n", *envp++);
-	}
-	
-	exit (0);
+	ft_printf("%d\n", access("pipex.c", F_OK | R_OK));
 }
