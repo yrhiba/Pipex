@@ -6,7 +6,7 @@
 #    By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/28 04:22:23 by yrhiba            #+#    #+#              #
-#    Updated: 2022/11/28 04:55:47 by yrhiba           ###   ########.fr        #
+#    Updated: 2022/11/28 06:09:25 by yrhiba           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ INC = pipex.h
 SRCS = pipex.c ft_getinstr.c
 OBJS_DIR = objs/
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
-FLAGS = -Wall -Wextra -Werror
+FLAGS = #-Wall -Wextra -Werror
 
 $(NAME) : mlibft $(OBJS)
 	cc $(OBJS) -o $(NAME) -L libft -l ft

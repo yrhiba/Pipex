@@ -6,7 +6,7 @@
 #    By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/05 21:48:43 by yrhiba            #+#    #+#              #
-#    Updated: 2022/11/21 22:08:49 by yrhiba           ###   ########.fr        #
+#    Updated: 2022/11/28 06:30:12 by yrhiba           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ FILES = ft_isalpha ft_isdigit ft_isalnum ft_isascii ft_isprint \
 		ft_format_p ft_lstnew ft_lstadd_front ft_lstsize \
 		ft_lstlast ft_lstadd_back ft_lstdelone \
 		ft_lstclear ft_lstiter ft_lstmap \
-		get_next_line get_next_line_utils
+		get_next_line get_next_line_utils ft_strcmp
 
 OBJS_DIR = objs/
 
