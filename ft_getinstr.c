@@ -6,7 +6,7 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:21:04 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/11/28 08:11:07 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/11/28 09:51:52 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,18 +76,23 @@ char	*file_getinstr(char *path)
 	return (rtn);
 }
 
-char	*ft_getinstr(int ac, char **av)
+char	*ft_getinstr(int ac, char **av, t_pipex *vars)
 {
 	int	herdoc;
 
 	herdoc = ft_strcmp(av[1], HERDOC);
 	if (herdoc == 0)
 	{
+		vars->herdoc = 1;
 		if (ac < 6)
 			return (errno = EIO, NULL);
 		return (herdoc_getinstr(av[2]));
 	}
-	else if (ac < 5)
-		return (errno = EIO, NULL);
+	else
+	{
+		if (ac < 5)
+			return (errno = EIO, NULL);
+		vars->herdoc = 0;
+	}
 	return (file_getinstr(av[1]));
 }
