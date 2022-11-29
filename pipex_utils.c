@@ -6,7 +6,7 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 08:42:37 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/11/29 15:05:09 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/11/29 16:47:24 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 size_t	ft_getcmdscount(int herdoc, int ac)
 {
-	if (!herdoc)
+	if (herdoc)
 		return (ac - 4);
 	return (ac - 3);
 }

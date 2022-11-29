@@ -6,7 +6,7 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 02:40:28 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/11/29 15:04:41 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/11/29 17:06:18 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ typedef struct s_pipex
 }			t_pipex;
 
 char		*ft_getinstr(int ac, char **av, t_pipex *vars);
-int			**ft_getpipes(size_t count);
+int			**ft_getpipes(int count);
 size_t		ft_getcmdscount(int herdoc, int ac);
 char		**ft_getcmds(t_pipex *vars, char **av);
-int			**ft_freepipes(int **pipes);
+int			**ft_freepipes(t_pipex *vars);
 void		closepipes(t_pipex *vars);
 char		**getcmdargs(t_pipex *vars, char **av, char **ev, int index);
 

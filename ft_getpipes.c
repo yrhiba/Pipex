@@ -6,13 +6,27 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 08:39:58 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/11/28 10:27:22 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/11/29 16:59:21 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	**ft_freepipes(int **pipes)
+int	**ft_freepipes(t_pipex *vars)
+{
+	int	i;
+	int	**pipes;
+
+	closepipes(vars);
+	pipes = vars->pipes;
+	i = 0;
+	while (pipes[i])
+		free(pipes[i++]);
+	free(pipes);
+	return (NULL);
+}
+
+int	**ft_justfreepipes(int **pipes)
 {
 	int	i;
 
@@ -23,7 +37,7 @@ int	**ft_freepipes(int **pipes)
 	return (NULL);
 }
 
-int	**ft_getpipes(size_t count)
+int	**ft_getpipes(int count)
 {
 	int	**rtn;
 	int	i;
@@ -36,9 +50,10 @@ int	**ft_getpipes(size_t count)
 	{
 		rtn[i] = (int *)malloc(sizeof(int) * 2);
 		if (!(rtn[i]))
-			return (errno = ENOMEM, ft_freepipes(rtn));
+			return (errno = ENOMEM, ft_justfreepipes(rtn));
 		if (pipe(rtn[i]) == -1)
-			return (ft_freepipes(rtn));
+			return (ft_justfreepipes(rtn));
+		i++;
 	}
 	return (rtn[i] = 0, rtn);
 }

@@ -6,7 +6,7 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 02:13:28 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/11/29 15:08:55 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/11/29 17:06:17 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_writetopipe(t_pipex *vars)
 	size_t	size;
 
 	size = ft_strlen(vars->instr) + 1;
-	if (write((vars->pipes)[0][1], vars->instr, (size * sizeof(char))) == -1)
+	if (write(((vars->pipes)[0][1]), vars->instr, (size * sizeof(char))) == -1)
 		return (1);
 	return (0);
 }
@@ -39,6 +39,8 @@ char	*ft_readfrompipe(t_pipex *vars)
 		tmp2 = ft_strjoin(rtn, tmp1);
 		free(tmp1);
 		free(rtn);
+		if (!tmp2)
+			return (errno = ENOMEM, NULL);
 		tmp1 = get_next_line(fd);
 		rtn = tmp2;
 	}
@@ -94,23 +96,27 @@ int	main(int ac, char const *av[], char const *ev[])
 {
 	t_pipex	*vars;
 
+	vars = (t_pipex *)malloc(sizeof(t_pipex));
+	if (!vars)
+		return (errno = ENOMEM, perror("error"), 0);
 	vars->error = 0;
 	vars->instr = ft_getinstr(ac, (char **)av, vars);
 	if (!(vars->instr))
 		return (perror("error"), errno);
+	// [projects good]
 	vars->cmds_count = ft_getcmdscount(vars->herdoc, ac);
-	vars->pipes = ft_getpipes(vars->cmds_count + 1);
+	vars->pipes = ft_getpipes((vars->cmds_count) + 1);
 	if (!vars->pipes)
 		return (free(vars->instr), perror("error"), errno);
 	if (ft_writetopipe(vars))
-		return (free(vars->instr), ft_freepipes(vars->pipes), perror("error"),
+		return (free(vars->instr), ft_freepipes(vars), perror("error"),
 			errno);
 	if (ft_startforking(vars, ft_getcmds(vars, (char **)av), (char **)ev))
 		return (free(vars->instr), ft_freepipes(vars->pipes), 0);
-	vars->result = ft_readfrompipe(vars);
-	if (!(vars->result))
-		return (perror("error"), errno);
-	if (ft_putresult(vars->result, (char *)av[ac - 1], vars->herdoc) == -1)
-		return (perror("error"), errno);
+	// vars->result = ft_readfrompipe(vars);
+	// if (!(vars->result))
+	// 	return (perror("error"), errno);
+	// if (ft_putresult(vars->result, (char *)av[ac - 1], vars->herdoc) == -1)
+	// 	return (perror("error"), errno);
 	return (closepipes(vars), 0);
 }

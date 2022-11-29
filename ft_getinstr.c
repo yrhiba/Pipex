@@ -6,7 +6,7 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:21:04 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/11/28 09:51:52 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/11/29 16:20:20 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ char	*ft_getinstr(int ac, char **av, t_pipex *vars)
 {
 	int	herdoc;
 
-	herdoc = ft_strcmp(av[1], HERDOC);
+	if (ac > 1)
+		herdoc = ft_strcmp(av[1], HERDOC);
 	if (herdoc == 0)
 	{
 		vars->herdoc = 1;

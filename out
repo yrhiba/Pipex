@@ -1,0 +1,4 @@
+FLAGS = #-Wall -Wextra -Werror
+all : $(NAME)
+re : fclean all
+.PHONEY : all fclean clean re clibft mlibft
