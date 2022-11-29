@@ -6,7 +6,7 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 02:40:28 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/11/29 13:32:01 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/11/29 15:04:41 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,6 @@ size_t		ft_getcmdscount(int herdoc, int ac);
 char		**ft_getcmds(t_pipex *vars, char **av);
 int			**ft_freepipes(int **pipes);
 void		closepipes(t_pipex *vars);
+char		**getcmdargs(t_pipex *vars, char **av, char **ev, int index);
 
 #endif

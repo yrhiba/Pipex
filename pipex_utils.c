@@ -6,7 +6,7 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 08:42:37 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/11/28 12:58:41 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/11/29 15:05:09 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ size_t	ft_getcmdscount(int herdoc, int ac)
 	return (ac - 3);
 }
 
-char **ft_getcmds(t_pipex *vars, char  **av)
+char	**ft_getcmds(t_pipex *vars, char **av)
 {
 	if (vars->herdoc)
 		return (av + 3);

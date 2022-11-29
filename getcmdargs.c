@@ -6,7 +6,7 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 22:26:39 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/11/29 14:15:09 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/11/29 15:09:58 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ char	*getcmdpath(char *cmd, char **ev)
 	i = 0;
 	while (ev[i])
 	{
-		if (!(ft_strncmp(ev, PATH, 5)))
+		if (!(ft_strncmp(ev[i], PATH, 5)))
 		{
-			paths = ft_split((&(ev[i]) + 5), ':');
+			paths = ft_split(*(&(ev[i]) + 5), ':');
 			if (!paths)
 				return (free(cmd), errno = ENOMEM, NULL);
 			break ;

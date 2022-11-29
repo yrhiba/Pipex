@@ -6,7 +6,7 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 02:13:28 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/11/29 14:19:26 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/11/29 15:08:55 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,35 @@ int	ft_writetopipe(t_pipex *vars)
 	size_t	size;
 
 	size = ft_strlen(vars->instr) + 1;
-	if (wirte((vars->pipes)[0][1], vars->instr, (size * sizeof(char))) == -1)
+	if (write((vars->pipes)[0][1], vars->instr, (size * sizeof(char))) == -1)
 		return (1);
 	return (0);
 }
 
-int	ft_startforking(t_pipex *vars, char *av, char const *ev)
+char	*ft_readfrompipe(t_pipex *vars)
+{
+	char	*tmp1;
+	char	*tmp2;
+	char	*rtn;
+	int		fd;
+
+	fd = vars->pipes[vars->cmds_count][0];
+	rtn = ft_strdup("");
+	if (!rtn)
+		return (errno = ENOMEM, NULL);
+	tmp1 = get_next_line(fd);
+	while (tmp1)
+	{
+		tmp2 = ft_strjoin(rtn, tmp1);
+		free(tmp1);
+		free(rtn);
+		tmp1 = get_next_line(fd);
+		rtn = tmp2;
+	}
+	return (rtn);
+}
+
+int	ft_startforking(t_pipex *vars, char **av, char **ev)
 {
 	int	i;
 
@@ -51,6 +74,22 @@ int	ft_startforking(t_pipex *vars, char *av, char const *ev)
 	return (free(vars->pids), 0);
 }
 
+int	ft_putresult(char *result, char *file, int herdoc)
+{
+	int	fd;
+	int	flags;
+
+	flags = O_WRONLY | O_CREAT;
+	if (herdoc)
+		flags = flags | O_APPEND;
+	fd = open(file, flags);
+	if (fd == -1)
+		return (-1);
+	if (write(fd, result, (ft_strlen(result) + 1)) == -1)
+		return (-1);
+	return (0);
+}
+
 int	main(int ac, char const *av[], char const *ev[])
 {
 	t_pipex	*vars;
@@ -69,6 +108,9 @@ int	main(int ac, char const *av[], char const *ev[])
 	if (ft_startforking(vars, ft_getcmds(vars, (char **)av), (char **)ev))
 		return (free(vars->instr), ft_freepipes(vars->pipes), 0);
 	vars->result = ft_readfrompipe(vars);
-	ft_putresult(vars->result, av[ac - 1]);
+	if (!(vars->result))
+		return (perror("error"), errno);
+	if (ft_putresult(vars->result, (char *)av[ac - 1], vars->herdoc) == -1)
+		return (perror("error"), errno);
 	return (closepipes(vars), 0);
 }
