@@ -6,7 +6,7 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 02:13:28 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/11/28 13:16:38 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/11/29 14:19:26 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ int	ft_writetopipe(t_pipex *vars)
 	size_t	size;
 
 	size = ft_strlen(vars->instr) + 1;
-	if (write((vars->pipes)[0][1], &size, sizeof(size_t)) == -1)
-		return (1);
 	if (wirte((vars->pipes)[0][1], vars->instr, (size * sizeof(char))) == -1)
 		return (1);
 	return (0);
@@ -42,7 +40,10 @@ int	ft_startforking(t_pipex *vars, char *av, char const *ev)
 			if (dup2((vars->pipes)[i + 1][1], STDOUT_FILENO) == -1 ||
 				dup2((vars->pipes)[i][0], STDIN_FILENO) == -1)
 				return (free(vars->pids), perror("error"), (vars->error = 1));
-			execve(getcmdpath(vars, av, ev), getcmdargs(vars, av, ev), ev);
+			vars->args = getcmdargs(vars, av, ev, i);
+			if (!(vars->args) || execve((vars->args)[0], vars->args, ev) == -1)
+				return (free(vars->pids), free(vars->args), perror("error"),
+					(vars->error = 1));
 			return (1);
 		}
 		i++;

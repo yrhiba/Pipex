@@ -6,7 +6,7 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 02:40:28 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/11/28 12:59:36 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/11/29 13:32:01 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PIPEX_H
 
 # define HERDOC "here_doc"
+# define PATH "PATH="
 
 # include "libft.h"
 # include <errno.h>
@@ -35,6 +36,7 @@ typedef struct s_pipex
 	int		error;
 	char	*instr;
 	char	*result;
+	char	**args;
 }			t_pipex;
 
 char		*ft_getinstr(int ac, char **av, t_pipex *vars);
