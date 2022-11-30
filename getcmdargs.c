@@ -6,7 +6,7 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 22:26:39 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/11/29 22:46:14 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/11/30 17:42:33 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*getcmdpath(char *cmd, char **ev)
 	{
 		if (!(ft_strncmp(ev[i], PATH, 5)))
 		{
-			paths = ft_split( (*(ev + i) + 5), ':');
+			paths = ft_split((*(ev + i) + 5), ':');
 			if (!paths)
 				return (free(cmd), freepaths(paths), errno = ENOMEM, NULL);
 			break ;
@@ -79,7 +79,7 @@ char	**freertn(char **rtn)
 char	**getcmdargs(t_pipex *vars, char **av, char **ev, int index)
 {
 	char	**rtn;
-	
+
 	rtn = ft_split(av[index], 32);
 	if (!rtn)
 		return (NULL);

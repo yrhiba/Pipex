@@ -6,7 +6,7 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 02:40:28 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/11/29 23:34:36 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/11/30 17:45:41 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # define HERDOC "here_doc"
 # define PATH "PATH="
+# define TMPFD ".tempfd"
 
 # include "libft.h"
 # include <errno.h>
@@ -47,5 +48,6 @@ char		**ft_getcmds(t_pipex *vars, char **av);
 int			**ft_freepipes(t_pipex *vars);
 void		closepipes(t_pipex *vars);
 char		**getcmdargs(t_pipex *vars, char **av, char **ev, int index);
+int			*ft_getfds(char **av, t_pipex *vars, int ac);
 
 #endif
