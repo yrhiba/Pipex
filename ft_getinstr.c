@@ -6,13 +6,13 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 04:21:04 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/11/29 16:20:20 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/11/30 18:46:49 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	ft_islimtter(char *buff, char *limtter)
+static int	ft_islimtter(char *buff, char *limtter)
 {
 	while (*buff != '\n' && *buff && *limtter)
 	{
@@ -26,7 +26,7 @@ int	ft_islimtter(char *buff, char *limtter)
 	return (0);
 }
 
-char	*herdoc_getinstr(char *limtter)
+static char	*herdoc_getinstr(char *limtter)
 {
 	char	*rtn;
 	char	*buff;
@@ -49,7 +49,7 @@ char	*herdoc_getinstr(char *limtter)
 	return (free(buff), rtn);
 }
 
-char	*file_getinstr(char *path)
+static char	*file_getinstr(char *path)
 {
 	int		fd;
 	char	*rtn;

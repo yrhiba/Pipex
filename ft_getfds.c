@@ -6,13 +6,13 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 17:45:07 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/11/30 17:45:29 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/11/30 18:46:03 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	returnthefd(int fd, char *file)
+static int	returnthefd(int fd, char *file)
 {
 	char	*buff;
 
@@ -29,7 +29,7 @@ int	returnthefd(int fd, char *file)
 	return (fd);
 }
 
-int	getfdfromhd(void)
+static int	getfdfromhd(void)
 {
 	char	*tmpfd;
 	char	*tmp;
