@@ -6,7 +6,7 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 17:45:07 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/11/30 18:46:03 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/11/30 20:29:29 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	*ft_getfds(char **av, t_pipex *vars, int ac)
 			return (free(rtn), NULL);
 		return (rtn);
 	}
+	ft_printf("puts\n");
 	rtn[0] = getfdfromhd();
 	if (rtn[0] == -1 || rtn[1] == -1)
 		return (free(rtn), NULL);

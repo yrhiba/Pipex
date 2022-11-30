@@ -6,15 +6,18 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 08:42:37 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/11/29 19:18:23 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/11/30 20:28:57 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-size_t	ft_getcmdscount(int herdoc, int ac)
+size_t	ft_getcmdscount(t_pipex *vars, int ac, const char **av)
 {
-	if (herdoc)
+	vars->herdoc = 0;
+	if (strcmp(HERDOC, av[1]) == 0)
+		vars->herdoc = 1;
+	if (vars->herdoc)
 		return (ac - 4);
 	return (ac - 3);
 }
