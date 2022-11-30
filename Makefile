@@ -6,7 +6,7 @@
 #    By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/28 04:22:23 by yrhiba            #+#    #+#              #
-#    Updated: 2022/11/29 15:11:21 by yrhiba           ###   ########.fr        #
+#    Updated: 2022/11/29 18:57:05 by yrhiba           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 FLAGS = #-Wall -Wextra -Werror
 
 $(NAME) : mlibft $(OBJS)
-	cc $(OBJS) -o $(NAME) -L libft -l ft
+	cc $(OBJS) -o $(NAME) -L libft -l ft -fsanitize=address
 
 $(OBJS_DIR)%.o : %.c $(INC)
 	@mkdir -p $(OBJS_DIR)

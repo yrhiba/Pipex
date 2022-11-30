@@ -6,7 +6,7 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 02:40:28 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/11/29 17:06:18 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/11/29 23:34:36 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_pipex
 {
 	size_t	cmds_count;
 	int		**pipes;
+	int		*fds;
 	int		*pids;
 	int		id;
 	int		herdoc;

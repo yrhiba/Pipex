@@ -6,48 +6,13 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 02:13:28 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/11/29 17:06:17 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/11/30 03:45:21 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	ft_writetopipe(t_pipex *vars)
-{
-	size_t	size;
-
-	size = ft_strlen(vars->instr) + 1;
-	if (write(((vars->pipes)[0][1]), vars->instr, (size * sizeof(char))) == -1)
-		return (1);
-	return (0);
-}
-
-char	*ft_readfrompipe(t_pipex *vars)
-{
-	char	*tmp1;
-	char	*tmp2;
-	char	*rtn;
-	int		fd;
-
-	fd = vars->pipes[vars->cmds_count][0];
-	rtn = ft_strdup("");
-	if (!rtn)
-		return (errno = ENOMEM, NULL);
-	tmp1 = get_next_line(fd);
-	while (tmp1)
-	{
-		tmp2 = ft_strjoin(rtn, tmp1);
-		free(tmp1);
-		free(rtn);
-		if (!tmp2)
-			return (errno = ENOMEM, NULL);
-		tmp1 = get_next_line(fd);
-		rtn = tmp2;
-	}
-	return (rtn);
-}
-
-int	ft_startforking(t_pipex *vars, char **av, char **ev)
+int	ft_startforking(t_pipex *vars, char **av, char **ev, int *fds)
 {
 	int	i;
 
@@ -58,65 +23,80 @@ int	ft_startforking(t_pipex *vars, char **av, char **ev)
 	while (i < vars->cmds_count)
 	{
 		(vars->pids)[i] = fork();
-		if ((vars->pids)[i] == -1 || vars->error)
+		if ((vars->pids)[i] == -1)
 			return (free(vars->pids), perror("error"), (vars->error = 1));
-		if ((vars->pids)[i] == 0)
+		if (((vars->pids)[i]) == 0)
 		{
-			if (dup2((vars->pipes)[i + 1][1], STDOUT_FILENO) == -1 ||
-				dup2((vars->pipes)[i][0], STDIN_FILENO) == -1)
+			if ((i != 0) && (i != (vars->cmds_count - 1)))
+			{
+				fds[0] = ((vars->pipes)[i][0]);
+				fds[1] = ((vars->pipes)[i + 1][1]);
+			}
+			else if (i == 0)
+				fds[0] = ((vars->pipes)[i][0]);
+			else if (i == (vars->cmds_count - 1))
+				fds[1] = ((vars->pipes)[i + 1][1]);
+			if (dup2(fds[1], STDOUT_FILENO) == -1 ||
+				dup2(fds[0], STDIN_FILENO) == -1)
 				return (free(vars->pids), perror("error"), (vars->error = 1));
 			vars->args = getcmdargs(vars, av, ev, i);
 			if (!(vars->args) || execve((vars->args)[0], vars->args, ev) == -1)
 				return (free(vars->pids), free(vars->args), perror("error"),
 					(vars->error = 1));
-			return (1);
+			return (closepipes(vars), 1);
 		}
 		i++;
 	}
 	return (free(vars->pids), 0);
 }
 
-int	ft_putresult(char *result, char *file, int herdoc)
+int	getfdfromhd(void)
 {
-	int	fd;
-	int	flags;
+	
+}
 
-	flags = O_WRONLY | O_CREAT;
-	if (herdoc)
-		flags = flags | O_APPEND;
-	fd = open(file, flags);
-	if (fd == -1)
-		return (-1);
-	if (write(fd, result, (ft_strlen(result) + 1)) == -1)
-		return (-1);
-	return (0);
+int	*ft_getfds(char **av, t_pipex *vars, int ac)
+{
+	int	*rtn;
+
+	rtn = (int *)malloc(sizeof(int) * 2);
+	if (!rtn)
+		return (errno = ENOMEM, NULL);
+	rtn[1] = open(av[ac - 1], O_WRONLY);
+	if (!(vars->herdoc))
+	{
+		rtn[0] = open(av[1], O_RDONLY);
+		if (rtn[0] == -1 || rtn[1] == -1)
+			return (free(rtn), NULL);
+		return (rtn);
+	}
+	rtn[0] = getfdfromhd();
+	if (rtn[0] == -1 || rtn[1] == -1)
+		return (free(rtn), NULL);
+	return (rtn);
 }
 
 int	main(int ac, char const *av[], char const *ev[])
 {
 	t_pipex	*vars;
+	int		i;
 
 	vars = (t_pipex *)malloc(sizeof(t_pipex));
 	if (!vars)
-		return (errno = ENOMEM, perror("error"), 0);
-	vars->error = 0;
-	vars->instr = ft_getinstr(ac, (char **)av, vars);
-	if (!(vars->instr))
-		return (perror("error"), errno);
-	// [projects good]
+		return (errno = ENOMEM, perror("error"), errno);
 	vars->cmds_count = ft_getcmdscount(vars->herdoc, ac);
 	vars->pipes = ft_getpipes((vars->cmds_count) + 1);
 	if (!vars->pipes)
 		return (free(vars->instr), perror("error"), errno);
-	if (ft_writetopipe(vars))
-		return (free(vars->instr), ft_freepipes(vars), perror("error"),
-			errno);
-	if (ft_startforking(vars, ft_getcmds(vars, (char **)av), (char **)ev))
-		return (free(vars->instr), ft_freepipes(vars->pipes), 0);
-	// vars->result = ft_readfrompipe(vars);
-	// if (!(vars->result))
-	// 	return (perror("error"), errno);
-	// if (ft_putresult(vars->result, (char *)av[ac - 1], vars->herdoc) == -1)
-	// 	return (perror("error"), errno);
+	vars->fds = ft_getfds(av, vars, ac);
+	if (!(vars->fds))
+		return (free(vars->pipes), free(vars->cmds_count), free(vars),
+			perror("error"), errno);
+	if (ft_startforking(vars, ft_getcmds(vars, (char **)av), (char **)ev,
+			vars->fds))
+		return (free(vars->instr), ft_freepipes(vars), errno);
+	i = -1;
+	while (++i < vars->cmds_count)
+		wait(NULL);
 	return (closepipes(vars), 0);
 }
