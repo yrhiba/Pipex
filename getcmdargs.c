@@ -6,7 +6,7 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 00:20:54 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/12/06 03:44:04 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/12/06 03:50:18 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ char	*getcmdpath(char *cmd, const char **ev)
 	int		i;
 	char	**paths;
 
+	paths = 0;
 	i = -1;
 	while (ev[++i])
 	{
@@ -78,6 +79,8 @@ char	**getcmdargs(t_pipex *vars, const char **av, const char **ev, int index)
 {
 	char	**rtn;
 
+	if (!vars)
+		rtn = 0;
 	if (!(ev[0]))
 		return (errno = EPROCUNAVAIL, NULL);
 	rtn = ft_split(av[index], 32);

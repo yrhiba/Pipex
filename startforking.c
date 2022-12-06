@@ -6,7 +6,7 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 20:18:40 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/12/06 03:43:36 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/12/06 03:48:18 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	wichfds(int *rw, t_pipex *vars, int *fds, int i)
 {
-	if ((i != 0) && (i != (vars->cmds_count - 1)))
+	if ((i != 0) && (i != (((int)(vars->cmds_count)) - 1)))
 	{
 		rw[0] = ((vars->pipes)[i][0]);
 		rw[1] = ((vars->pipes)[i + 1][1]);
@@ -24,7 +24,7 @@ void	wichfds(int *rw, t_pipex *vars, int *fds, int i)
 		rw[0] = fds[0];
 		rw[1] = ((vars->pipes)[i + 1][1]);
 	}
-	else if (i == (vars->cmds_count - 1))
+	else if (i == (((int)(vars->cmds_count)) - 1))
 	{
 		rw[0] = ((vars->pipes)[i][0]);
 		rw[1] = fds[1];
@@ -56,7 +56,7 @@ int	startforking(t_pipex *vars, const char **av, const char **ev, int *fds)
 	if (!(vars->pids))
 		return (perror("error 20(startforking)"), 1);
 	i = -1;
-	while (++i < vars->cmds_count)
+	while (++i < ((int)(vars->cmds_count)))
 	{
 		(vars->pids)[i] = fork();
 		if ((vars->pids)[i] == -1)
