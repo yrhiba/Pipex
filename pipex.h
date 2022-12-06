@@ -6,7 +6,7 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 02:40:28 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/12/06 01:20:13 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/12/06 03:38:08 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,10 @@ int				*getfds(int ac, const char **av, t_pipex *vars);
 void			rtnfds(t_pipex *vars);
 void			rtnforking(t_pipex *vars);
 void			rtnpipex(t_pipex *vars);
-void			closeallfds(t_pipex *vars, int *fds);
+void			closeallfds(t_pipex *vars);
 
-int				startforking(t_pipex *vars, const char **av, const char **ev,
-					int *fds);
+int				startforking(t_pipex *vars, const char **av, const char **ev);
 
-char			**getcmdargs(t_pipex *vars, const char **av, const char **ev,
-					int index);
+char			**getcmdargs(const char **av, const char **ev, int index);
 
 #endif

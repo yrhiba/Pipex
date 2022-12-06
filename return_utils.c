@@ -6,7 +6,7 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 18:07:56 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/12/06 01:06:56 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/12/06 03:34:39 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	rtnpipex(t_pipex *vars)
 	free(vars);
 }
 
-void	closeallfds(t_pipex *vars, int *fds)
+void	closeallfds(t_pipex *vars)
 {
 	close(vars->fds[0]);
 	close(vars->fds[1]);

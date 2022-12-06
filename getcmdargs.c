@@ -6,7 +6,7 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 00:20:54 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/12/06 03:02:07 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/12/06 03:38:12 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,11 @@ char	*getcmdpath(char *cmd, const char **ev)
 			break ;
 		}
 	}
+	paths = 0;
 	return (getthepath(cmd, paths));
 }
 
-char	**getcmdargs(t_pipex *vars, const char **av, const char **ev, int index)
+char	**getcmdargs(const char **av, const char **ev, int index)
 {
 	char	**rtn;
 

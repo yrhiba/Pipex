@@ -6,7 +6,7 @@
 #    By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/28 04:22:23 by yrhiba            #+#    #+#              #
-#    Updated: 2022/12/06 01:37:27 by yrhiba           ###   ########.fr        #
+#    Updated: 2022/12/06 03:29:42 by yrhiba           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRCS =	pipex.c pipex_utils.c return_utils.c \
 
 OBJS_DIR = objs/
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
-FLAGS = #-Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror
 
 $(NAME) : mlibft $(OBJS)
 	cc $(OBJS) -o $(NAME) -L libft -l ft -fsanitize=address
