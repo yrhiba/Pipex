@@ -6,37 +6,33 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 08:42:37 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/11/30 20:28:57 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/12/05 20:25:36 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-size_t	ft_getcmdscount(t_pipex *vars, int ac, const char **av)
+size_t	getcmdscount(t_pipex *vars, int ac, const char **av)
 {
 	vars->herdoc = 0;
-	if (strcmp(HERDOC, av[1]) == 0)
+	if (ac > 1 && (strcmp(HERDOC, av[1]) == 0))
 		vars->herdoc = 1;
 	if (vars->herdoc)
+	{
+		if (ac < 6)
+			return (errno = EIO, -1);
+		vars->flags = O_WRONLY | O_CREAT | O_APPEND;
 		return (ac - 4);
+	}
+	if (ac < 5)
+		return (errno = EIO, -1);
+	vars->flags = O_WRONLY | O_CREAT;
 	return (ac - 3);
 }
 
-char	**ft_getcmds(t_pipex *vars, char **av)
+const char	**getcmds(t_pipex *vars, const char **av)
 {
 	if (vars->herdoc)
 		return (av + 3);
 	return (av + 2);
-}
-
-void	closepipes(t_pipex *vars)
-{
-	int	i;
-
-	i = 0;
-	while (i < (vars->cmds_count + 1))
-	{
-		close(vars->pipes[i][0]);
-		close(vars->pipes[i][1]);
-	}
 }

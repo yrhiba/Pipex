@@ -6,7 +6,7 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 02:40:28 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/11/30 20:27:39 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/12/06 01:20:13 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,37 @@
 
 typedef struct s_pipex
 {
-	size_t	cmds_count;
-	int		**pipes;
-	int		*fds;
-	int		*pids;
-	int		id;
-	int		herdoc;
-	int		error;
-	char	*instr;
-	char	*result;
-	char	**args;
-}			t_pipex;
+	size_t		cmds_count;
+	int			**pipes;
+	int			*fds;
+	int			*pids;
+	int			id;
+	int			herdoc;
+	int			flags;
+	const char	**av;
+	const char	**ev;
+	char		**args;
+	char		*outfile;
+}				t_pipex;
 
-char		*ft_getinstr(int ac, char **av, t_pipex *vars);
-int			**ft_getpipes(int count);
-size_t		ft_getcmdscount(t_pipex *vars, int ac, const char **av);
-char		**ft_getcmds(t_pipex *vars, char **av);
-int			**ft_freepipes(t_pipex *vars);
-void		closepipes(t_pipex *vars);
-char		**getcmdargs(t_pipex *vars, char **av, char **ev, int index);
-int			*ft_getfds(char **av, t_pipex *vars, int ac);
-int			startforking(t_pipex *vars, char **av, char **ev, int *fds);
+size_t			getcmdscount(t_pipex *vars, int ac, const char **av);
+const char		**getcmds(t_pipex *vars, const char **av);
+
+int				**getpipes(size_t count);
+void			closepipes(int **pipes);
+int				**freepipes(int **pipes);
+
+int				*getfds(int ac, const char **av, t_pipex *vars);
+
+void			rtnfds(t_pipex *vars);
+void			rtnforking(t_pipex *vars);
+void			rtnpipex(t_pipex *vars);
+void			closeallfds(t_pipex *vars, int *fds);
+
+int				startforking(t_pipex *vars, const char **av, const char **ev,
+					int *fds);
+
+char			**getcmdargs(t_pipex *vars, const char **av, const char **ev,
+					int index);
 
 #endif
