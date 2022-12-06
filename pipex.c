@@ -6,7 +6,7 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 02:13:28 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/12/06 03:35:16 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/12/06 03:43:43 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int ac, char const *av[], char const *ev[])
 	if (!vars)
 		return (perror("error (vars allocation)"), EXIT_FAILURE);
 	vars->cmds_count = getcmdscount(vars, ac, av);
-	if ((int)vars->cmds_count == -1)
+	if (vars->cmds_count == -1)
 		return (free(vars), perror("error (getcmdscount)"), EXIT_FAILURE);
 	vars->pipes = getpipes((vars->cmds_count) + 1);
 	if (!vars->pipes)
@@ -28,7 +28,7 @@ int	main(int ac, char const *av[], char const *ev[])
 	vars->fds = getfds(ac, av, vars);
 	if (!(vars->fds))
 		return (rtnfds(vars), perror("error (getfds)"), EXIT_FAILURE);
-	if (startforking(vars, getcmds(vars, av), ev))
+	if (startforking(vars, getcmds(vars, av), ev, vars->fds))
 		return (rtnforking(vars), EXIT_FAILURE);
 	return (rtnpipex(vars), EXIT_SUCCESS);
 }

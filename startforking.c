@@ -6,39 +6,39 @@
 /*   By: yrhiba <yrhiba@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 20:18:40 by yrhiba            #+#    #+#             */
-/*   Updated: 2022/12/06 03:38:28 by yrhiba           ###   ########.fr       */
+/*   Updated: 2022/12/06 03:43:36 by yrhiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	wichfds(int *rw, t_pipex *vars, int i)
+void	wichfds(int *rw, t_pipex *vars, int *fds, int i)
 {
-	if ((i != 0) && (i != ((int)vars->cmds_count - 1)))
+	if ((i != 0) && (i != (vars->cmds_count - 1)))
 	{
 		rw[0] = ((vars->pipes)[i][0]);
 		rw[1] = ((vars->pipes)[i + 1][1]);
 	}
 	else if (i == 0)
 	{
-		rw[0] = vars->fds[0];
+		rw[0] = fds[0];
 		rw[1] = ((vars->pipes)[i + 1][1]);
 	}
-	else if (i == ((int)vars->cmds_count - 1))
+	else if (i == (vars->cmds_count - 1))
 	{
 		rw[0] = ((vars->pipes)[i][0]);
-		rw[1] = vars->fds[1];
+		rw[1] = fds[1];
 	}
 }
 
-int	startproc(int *rw, t_pipex *vars, int i)
+int	startproc(int *rw, t_pipex *vars, int *fds, int i)
 {
-	wichfds(rw, vars, i);
+	wichfds(rw, vars, fds, i);
 	if (dup2(rw[1], STDOUT_FILENO) == -1 || dup2(rw[0], STDIN_FILENO) == -1)
-		return (closeallfds(vars), free(vars->pids),
+		return (closeallfds(vars, fds), free(vars->pids),
 			perror("error 50(startforking)"), 1);
-	closeallfds(vars);
-	vars->args = getcmdargs(vars->av, vars->ev, i);
+	closeallfds(vars, fds);
+	vars->args = getcmdargs(vars, vars->av, vars->ev, i);
 	if (!(vars->args))
 		return (free(vars->pids), perror("error 56(startforking)"), 1);
 	if (execve((vars->args)[0], vars->args, (char *const *)vars->ev) == -1)
@@ -47,7 +47,7 @@ int	startproc(int *rw, t_pipex *vars, int i)
 	return (1);
 }
 
-int	startforking(t_pipex *vars, const char **av, const char **ev)
+int	startforking(t_pipex *vars, const char **av, const char **ev, int *fds)
 {
 	int	i;
 	int	rw[2];
@@ -56,7 +56,7 @@ int	startforking(t_pipex *vars, const char **av, const char **ev)
 	if (!(vars->pids))
 		return (perror("error 20(startforking)"), 1);
 	i = -1;
-	while (++i < (int)vars->cmds_count)
+	while (++i < vars->cmds_count)
 	{
 		(vars->pids)[i] = fork();
 		if ((vars->pids)[i] == -1)
@@ -65,7 +65,7 @@ int	startforking(t_pipex *vars, const char **av, const char **ev)
 		{
 			vars->av = av;
 			vars->ev = ev;
-			startproc(rw, vars, i);
+			startproc(rw, vars, fds, i);
 			return (1);
 		}
 	}
