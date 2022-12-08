@@ -3,7 +3,7 @@ A pipe is a form of redirection (transfer of standard output to some other desti
 
 Program name :
 
-  pipex
+     pipex
 
 Makefile :
 
