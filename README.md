@@ -7,7 +7,7 @@ Program name :
 
 Makefile :
 
-  all clean fclean re
+            all clean fclean re
 
 External functs :
 
@@ -17,17 +17,17 @@ External functs :
 
 Program will be executed as follows :
 
-   ./pipex file1 cmd1 cmd2 cmd3 ... cmdn file2
+       ./pipex file1 cmd1 cmd2 cmd3 ... cmdn file2
   
 Should behave like shell cmd bellow :
 
-  < file1 cmd1 | cmd2 | cmd3 ... | cmdn > file2
+      < file1 cmd1 | cmd2 | cmd3 ... | cmdn > file2
   
 Support « and » when the first parameter is "here_doc" :
 
-  ./pipex here_doc LIMITER cmd cmd1 file
+      ./pipex here_doc LIMITER cmd cmd1 file
 
 Should behave like :
 
-  cmd << LIMITER | cmd1 >> file
+      cmd << LIMITER | cmd1 >> file
  
